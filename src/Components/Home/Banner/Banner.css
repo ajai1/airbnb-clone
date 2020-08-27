@@ -1,0 +1,41 @@
+.banner {
+  height: 10%;
+  position: relative;
+  background: url("https://www.telegraph.co.uk/content/dam/Travel/hotels/hotel-wishlist/the-lanesborough-suite-london.jpg")
+    center center;
+}
+
+.banner__info {
+  background-color: #222222be;
+  color: white;
+  padding-top: 4.5%;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 40px;
+  width: 300px;
+}
+
+.banner__search {
+  display: flex;
+  flex-direction: column;
+}
+
+.banner__searchButton {
+  background-color: white !important;
+  font-weight: 900 !important;
+  text-transform: inherit !important;
+  color: #ff7779 !important;
+}
+
+.banner__info > button {
+  background-color: #ff7779;
+  color: white;
+  text-transform: inherit;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.banner__info > button:hover {
+  background-color: white;
+  color: #ff7779;
+}
