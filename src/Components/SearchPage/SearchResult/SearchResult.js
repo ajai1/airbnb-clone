@@ -3,15 +3,7 @@ import "./SearchResult.css";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import StarIcon from "@material-ui/icons/Star";
 
-const SearchResult = ({
-  img,
-  location,
-  title,
-  description,
-  star,
-  price,
-  total,
-}) => {
+const SearchResult = ({ img, location, title, description, star, price }) => {
   return (
     <div className="searchResult">
       <img src={img} alt="" />
@@ -33,7 +25,6 @@ const SearchResult = ({
           </div>
           <div className="searchResults__price">
             <h2>{price}</h2>
-            <p>{total}</p>
           </div>
         </div>
       </div>

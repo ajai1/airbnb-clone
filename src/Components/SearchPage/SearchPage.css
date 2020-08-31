@@ -16,3 +16,7 @@
   text-transform: inherit;
   margin: 5px;
 }
+
+.cancelBtn-active {
+  background-color: blue !important;
+}

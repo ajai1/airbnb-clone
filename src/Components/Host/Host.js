@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Host.css";
 import axios from "axios";
 import DateFnsUtils from "@date-io/date-fns";
@@ -12,11 +12,13 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const Host = () => {
   //States
   const [file, setFile] = useState("");
   const [TypeOfRoom, setTypeOfRoom] = useState("");
+  const [Description, setDescription] = useState("");
   const [Location, setLocation] = useState("");
   const [NumberOfBeds, setNumberOfBeds] = useState("");
   const [GuestsAllowed, setGuestsAllowed] = useState("");
@@ -25,19 +27,33 @@ const Host = () => {
   const [AvailableTill, setAvailableTill] = useState(new Date());
   const [Cancellation, setCancellation] = useState(false);
   const [filename, setFileName] = useState("Choose File");
-  const [image, setImage] = useState("");
 
   //File Uploads
   const onFileUpload = (e) => {
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
   };
+
+  const onFileRemove = () => {
+    setFile("");
+    setFileName("Choose File");
+  };
+
+  //Handle Date
+  const availableFromChange = (date) => {
+    setAvailableFrom(date);
+  };
+  const availableTillChange = (date) => {
+    setAvailableTill(date);
+  };
+
   //Submission
   const onSubmitForm = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("imageData", file);
     formData.append("type", TypeOfRoom);
+    formData.append("description", Description);
     formData.append("location", Location);
     formData.append("beds", NumberOfBeds);
     formData.append("guests", GuestsAllowed);
@@ -52,19 +68,17 @@ const Host = () => {
         },
       });
       console.log(res.data);
-      if (res.data && res.data.imageData) {
-        setImage(`http://localhost:5000/${res.data.imageData.path}`);
+      if (res.data) {
+        alert("Hosted !!!");
       }
     } catch (err) {
       console.log(err.response);
     }
   };
 
-  //   useEffect(() => {}, [image]);
-
   return (
-    <div>
-      <h1>Host</h1>
+    <div className="container">
+      <h1>Ready to Host your place?</h1>
       <form className="form-data" onSubmit={onSubmitForm}>
         <TextField
           className="inputs"
@@ -73,6 +87,14 @@ const Host = () => {
           variant="outlined"
           value={TypeOfRoom}
           onChange={(e) => setTypeOfRoom(e.target.value)}
+        />
+        <TextField
+          className="inputs"
+          id="outlined-basic"
+          label="Description"
+          variant="outlined"
+          value={Description}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <TextField
           className="inputs"
@@ -87,6 +109,7 @@ const Host = () => {
           id="outlined-basic"
           label="Number of beds"
           variant="outlined"
+          type="number"
           value={NumberOfBeds}
           onChange={(e) => setNumberOfBeds(e.target.value)}
         />
@@ -95,6 +118,7 @@ const Host = () => {
           id="outlined-basic"
           label="Guests allowed"
           variant="outlined"
+          type="number"
           value={GuestsAllowed}
           onChange={(e) => setGuestsAllowed(e.target.value)}
         />
@@ -102,6 +126,7 @@ const Host = () => {
           className="inputs"
           id="outlined-basic"
           label="Price in Rupees"
+          type="number"
           variant="outlined"
           value={PriceInRupees}
           onChange={(e) => setPriceInRupees(e.target.value)}
@@ -118,7 +143,7 @@ const Host = () => {
                 "aria-label": "change date",
               }}
               value={AvailableFrom}
-              onChange={(e) => setAvailableFrom(e.target.value)}
+              onChange={availableFromChange}
             />
             <KeyboardDatePicker
               margin="normal"
@@ -129,7 +154,7 @@ const Host = () => {
                 "aria-label": "change date",
               }}
               value={AvailableTill}
-              onChange={(e) => setAvailableTill(e.target.value)}
+              onChange={availableTillChange}
             />
           </MuiPickersUtilsProvider>
         </div>
@@ -144,30 +169,38 @@ const Host = () => {
           }
           label="Cancellation Allowed"
         />
-        <input
-          accept="image/*"
-          id="contained-button-file"
-          type="file"
-          onChange={onFileUpload}
-          style={{ display: "none" }}
-        />
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span">
-            Attach Image
-          </Button>
-          {filename}
-        </label>
+        <div className="AttachImage">
+          <input
+            accept="image/*"
+            id="contained-button-file"
+            type="file"
+            onChange={onFileUpload}
+            style={{ display: "none" }}
+          />
+          <label htmlFor="contained-button-file">
+            <Button
+              variant="outlined"
+              component="span"
+              style={{
+                marginRight: "10px",
+                textTransform: "inherit",
+              }}
+            >
+              Attach Image
+            </Button>
+            <span>{filename}</span>
+          </label>
+          {file && (
+            <DeleteForeverIcon color="secondary" onClick={onFileRemove} />
+          )}
+        </div>
+
         <div style={{ margin: "10px 0" }}>
           <Button type="submit" variant="contained" color="primary">
             Host Now !!!
           </Button>
         </div>
       </form>
-      {image && (
-        <div>
-          <img src={image} alt="none" />
-        </div>
-      )}
     </div>
   );
 };
