@@ -1,0 +1,15 @@
+.form-data {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.inputs {
+  width: 40%;
+  margin-top: 20px !important;
+}
+
+.DatePicker {
+  display: flex !important;
+  flex-flow: row;
+}
